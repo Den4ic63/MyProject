@@ -24,7 +24,7 @@
 
 </div>
 
-<form method="post" action="filter" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 ">
+<form method="get"  class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 ">
     <input type="text" name="filter" class="form-control form-control-wa" placeholder="Поищем??..." aria-label="Search">
     <button class="btn btn-warning mt-2" type="submit"> Найти </button>
 </form>
@@ -34,7 +34,7 @@
     <h3 th:text="${el.title}"/>
     <p th:text="${el.price}"/>
     <p th:text="${el.getAuthorName()}"/>
-    <a th:href="'/catalog/'+ ${el.id}"class="btn btn-warning">Посмотреть</a>
+    <a th:href="'post_info'+${el.id}"class="btn btn-warning">Посмотреть</a>
 
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>

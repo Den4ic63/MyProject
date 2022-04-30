@@ -9,11 +9,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -21,11 +23,24 @@ public class MainController {
     private PostRepo postRepo;
 
     @GetMapping("/")
-    public String greeting(Model model) {
+    public String greeting(@RequestParam(required = false,defaultValue = "") String filter,Model model) {
         model.addAttribute("title", "Главная страница");
-       Iterable<Post>posts = postRepo.findAll();
 
-       model.addAttribute("posts",posts);
+        Iterable<Post>posts = postRepo.findAll();
+
+        if(filter !=null &&!filter.isEmpty()){
+            posts = postRepo.findByTitle(filter);
+            model.addAttribute("posts",posts);
+            if(((ArrayList<Post>) posts).size()==0) {
+                return "redirect:/non";
+            }
+        }else {
+            posts = postRepo.findAll();
+        }
+
+        model.addAttribute("posts",posts);
+        model.addAttribute("filter",filter);
+
         return "homepage";
     }
 
@@ -49,17 +64,38 @@ public class MainController {
         return "homepage";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Model model)
+    @GetMapping("post_info{post}")
+    public String post_info(@PathVariable Post post, Model model) {
+        model.addAttribute("post",post);
+        return "post_info";
+
+    }
+
+    @PostMapping("post_info{post}")
+    public String post_remove(@RequestParam("id") Post post, Model model) {
+        postRepo.delete(post);
+        return "redirect:/";
+
+    }
+
+    @GetMapping("post_edit{post}")
+    public String post_edit(@PathVariable Post post, Model model) {
+        model.addAttribute("post",post);
+        return "post_edit";
+    }
+
+    @PostMapping("post_edit{post}")
+    public String post_edit(@RequestParam("id") Post post, @RequestParam String title, @RequestParam String category, @RequestParam String price
+            , @RequestParam String view, @RequestParam String consist , Model model)
     {
+        post.setCategory(category);
+        post.setConsist(consist);
+        post.setTitle(title);
+        post.setPrice(price);
+        post.setView(view);
 
-        Iterable<Post> posts = postRepo.findByTitle(filter);
-        model.addAttribute("posts",posts);
-
-        if(((ArrayList<Post>) posts).size()==0) {
-            return "redirect:/non";
-        }else return "homepage";
-
+        postRepo.save(post);
+        return "redirect:/";
     }
 
 
