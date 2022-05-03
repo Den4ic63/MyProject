@@ -4,6 +4,9 @@ package com.DenforLy.blog.model;
 import com.DenforLy.blog.repositori.UserRepo;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Post  {
@@ -20,9 +23,25 @@ public class Post  {
     @JoinColumn(name="user_id")
     private User author;
 
+    @ManyToMany(mappedBy = "post")
+    private List<User> users;
+
+    public Post(List<User> users) {
+        this.users = users;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public String getAuthorName(){
         return author !=null ? author.getUsername() : "none";
     }
+    public Long getAuthorid(){return author !=null ? author.getId(): 0; }
 
     public User getAuthor() {
         return author;

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html >
 <head>
     <title th:text="${title} "/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,8 +10,16 @@
 <body>
 
 <header th:insert="blocks/header :: header"></header>
-<div class="container mt-5">
-    <h1>Упс мы ничего не нашли...</h1>
+<h1 th:text="'Мои обьявления'"/>
+
+
+<div th:each="el : ${posts}" class="alert alert-info mt-2 bg-dark text-warning">
+
+    <h3 th:text="${el.title}"/>
+    <p th:text="${el.price}"/>
+    <p ><b>Просмотров: </b><span th:text="${el.views}"/><p/>
+    <a th:href="'post_info'+${el.id}"class="btn btn-warning">Посмотреть</a>
+
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>
 

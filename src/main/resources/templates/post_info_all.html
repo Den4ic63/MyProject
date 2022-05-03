@@ -16,15 +16,11 @@
         <p th:text="${el.consist}"/>
         <p th:text="${el.view}"/>
         <p ><b>Просмотров: </b><span th:text="${el.views}"/> <p/>
-
-        <a  th:href="'/post_edit'+${el.id}" class="btn btn-warning">Редактировать</a>
-
-        <form th:action="'/post_info'+${el.id}" method="post">
+        <form th:action="'/post_info_all'+${el.id}" method="post">
             <input type="hidden"  th:value="${_csrf.token}" th:name="_csrf">
             <input type="hidden" th:value="${el.id}" name="id" >
-            <button class="btn btn-warning mt-2" type="submit">Удалить</button>
+                <button class="btn btn-warning mt-2" type="submit"  th:if="${#authentication.name!=el.getAuthorName()})"> >Добавить в избранное</button>
         </form>
-
 
     </div>
 </div>
