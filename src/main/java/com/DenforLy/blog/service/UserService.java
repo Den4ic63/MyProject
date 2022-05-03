@@ -23,13 +23,4 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void addfavorite(User user, Post post) {
-        user.getPost().add(post);
-        userRepo.save(user);
-    }
-
-    public void removefavorite(User user, Post post) {
-        user.getPost().remove(post);
-        userRepo.save(user);
-    }
 }

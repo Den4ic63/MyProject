@@ -23,20 +23,22 @@ public class Post  {
     @JoinColumn(name="user_id")
     private User author;
 
-    @ManyToMany(mappedBy = "post")
-    private List<User> users;
 
-    public Post(List<User> users) {
-        this.users = users;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private Set<User> following=new HashSet<>();
+
+    public Set<User> getFollowing() {
+        return following;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public void setFollowing(Set<User> following) {
+        this.following = following;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     public String getAuthorName(){
         return author !=null ? author.getUsername() : "none";

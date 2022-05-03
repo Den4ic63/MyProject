@@ -5,6 +5,7 @@ import com.DenforLy.blog.model.Post;
 import com.DenforLy.blog.model.Role;
 import com.DenforLy.blog.model.User;
 import com.DenforLy.blog.repositori.PostRepo;
+import com.DenforLy.blog.repositori.UserRepo;
 import com.DenforLy.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +25,8 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepo userRepo;
 
 
     @GetMapping("/")
@@ -114,31 +117,38 @@ public class MainController {
     }
 
     @GetMapping("post_info_all{post}")
-    public String post_info_all(@PathVariable Post post,@AuthenticationPrincipal User user, Model model) {
+    public String post_info_all(@PathVariable Post post,@AuthenticationPrincipal User currentuser, Model model) {
         model.addAttribute("post",post);
         post.setViews(post.getViews()+1);
         postRepo.save(post);
-        model.addAttribute("Following",user.getPost().contains(post));
+        model.addAttribute("following", post.getFollowing());
         return "post_info_all";
     }
 
     @GetMapping("post_info_all{post}following")
-    public String post_to_follow(@PathVariable Post post,@AuthenticationPrincipal User user, Model model) {
-        userService.addfavorite(user,post);
-        return "post_info_all";
+    public String post_to_follow(@PathVariable Post post,@AuthenticationPrincipal User currentuser, Model model) {
+
+        post.getFollowing().add(currentuser);
+        postRepo.save(post);
+
+        return "redirect:/";
     }
 
     @GetMapping("post_info_all{post}removing")
-    public String post_to_unfollow(@PathVariable Post post,@AuthenticationPrincipal User user, Model model) {
-        userService.removefavorite(user,post);
-        return "post_info_all";
+    public String post_to_unfollow(@PathVariable Post post,@AuthenticationPrincipal User currentuser, Model model) {
+
+
+        post.getFollowing().removeIf(user -> user.getId().equals(currentuser.getId()));
+        postRepo.save(post);
+
+        return "redirect:/";
     }
 
 
     @GetMapping("favorite")
     public String favorite(@AuthenticationPrincipal User user,Model model) {
 
-        model.addAttribute("follow",user.getPost());
+
         return "favorite";
     }
 
