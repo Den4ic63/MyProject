@@ -17,12 +17,69 @@
         <p th:text="${el.view}"/>
         <p ><b>Просмотров: </b><span th:text="${el.views}"/> <p/>
 
+        <a th:href="'/post_info_all'+${el.id}+'following'" class="btn btn-warning" th:if="${#authentication.name!=el.getAuthorName()&&!following}">Добавить в избранное</a>
+        <a th:href="'/post_info_all'+${el.id}+'removing'" class="btn btn-warning" th:if="${#authentication.name!=el.getAuthorName()&&following}">Убрать из избранного</a>
 
-        <a th:href="'/post_info_all'+${el.id}+'following'" class="btn btn-warning" th:if="${#authentication.name!=el.getAuthorName()}">Добавить в избранное</a>
-        <a th:href="'/post_info_all'+${el.id}+'removing'" class="btn btn-warning" th:if="${#authentication.name!=el.getAuthorName()}">Убрать из избранного</a>
-
-    </div>
+    </di>
 </div>
+
+    <h3>Рекомендации</h3>
+    <div class="container p-2 mb-2 mt-2 shadow-lg">
+        <div th:each="interest,rowStatus : ${dataminning}"  class="row interest-featured" th:if="${rowStatus.index % 3} == 0">
+            <div class="col-md-4 mt-3 interest"  th:each="interest,interestStatus : ${dataminning}"
+                 th:if="${interestStatus.index lt rowStatus.index + 3 and interestStatus.index ge rowStatus.index}">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 th:text="${interest.title}" class="card-text"></h3>
+                        <p th:text="${interest.price}"/>
+                        <p ><b>Просмотров: </b><span th:text="${interest.views}"/> <p/>
+                        <p ><b>Автор: </b><span th:text="${interest.getAuthorName()}"/> <p/>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a th:href="'post_info_all'+${interest.id}" class="btn btn-outline-dark me-2"> Посмотреть</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p>Some representative placeholder content for the first slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item active">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+
+            <div class="container">
+                <div class="carousel-caption text-end">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <footer th:insert="blocks/footer :: footer"></footer>
 

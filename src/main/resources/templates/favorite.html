@@ -9,11 +9,10 @@
 <body>
 
 <header th:insert="blocks/header :: header"></header>
-<h1 th:text="'Мои обьявления'"/>
+<h1 th:text="'Избранное'"/>
 
 
 <div th:each="el : ${follow}" class="alert alert-info mt-2 bg-dark text-warning">
-
     <h3 th:text="${el.title}"/>
     <p th:text="${el.price}"/>
     <p ><b>Просмотров: </b><span th:text="${el.views}"/> <p/>

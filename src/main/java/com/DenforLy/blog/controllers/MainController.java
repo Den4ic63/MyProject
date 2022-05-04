@@ -121,7 +121,9 @@ public class MainController {
         model.addAttribute("post",post);
         post.setViews(post.getViews()+1);
         postRepo.save(post);
-        model.addAttribute("following", post.getFollowing());
+        model.addAttribute("following",post.getFollowing().stream().anyMatch(user -> user.getId().equals(currentuser.getId())));
+        Iterable<Post>posts = postRepo.findByCategory(post.getCategory());
+        model.addAttribute("dataminning",posts);
         return "post_info_all";
     }
 
@@ -146,8 +148,11 @@ public class MainController {
 
 
     @GetMapping("favorite")
-    public String favorite(@AuthenticationPrincipal User user,Model model) {
-
+    public String favorite(@AuthenticationPrincipal User user,
+                           Model model)
+    {
+        Iterable<Post>posts = postRepo.findByFollowing(user);
+        model.addAttribute("follow",posts);
 
         return "favorite";
     }
