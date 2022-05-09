@@ -155,4 +155,14 @@ public class MainController {
         return "favorite";
     }
 
+    @GetMapping("profile{user}")
+    public String profile(@AuthenticationPrincipal User Currentuser,@PathVariable User user,
+                           Model model)
+    {
+        model.addAttribute("user",user);
+
+
+        return "profile";
+    }
+
 }

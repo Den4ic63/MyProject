@@ -39,7 +39,7 @@
                     <h3 th:text="${interest.title}" class="card-text"></h3>
                     <p th:text="${interest.price}"/>
                     <p ><b>Просмотров: </b><span th:text="${interest.views}"/> <p/>
-                    <p ><b>Автор: </b><span th:text="${interest.getAuthorName()}"/> <p/>
+                    <p ><b>Автор: </b> <a th:href="'profile'+${interest.getAuthorid()}"><span th:text="${interest.getAuthorName()}"/> </a> <p/>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a th:href="'post_info_all'+${interest.id}" class="btn btn-outline-dark me-2"> Посмотреть</a>

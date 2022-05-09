@@ -14,6 +14,9 @@ public class Messages{
     private String recipientId;
     private String message;
 
+    public Messages() {
+    }
+
     public Messages(String senderId, String recipientId, String message) {
         this.senderId = senderId;
         this.recipientId = recipientId;
