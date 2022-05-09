@@ -13,12 +13,16 @@
                     <li><a href="/my_posts" class="nav-link px-2 text-white">Мои объявления</a></li>
                 </ul>
 
-                <div class="text-end">
+                <div sec:authorize="isAuthenticated()">
+                    Welcome,<span sec:authentication="name">Username</span>
+                </div>
+                <div class="ms-2 text-end">
                     <form th:action="logout" method="post">
                         <button type="submit" class="btn btn-outline-light me-2" sec:authorize="isAuthenticated()">Sign-out</button>
                         <button type="submit" class="btn btn-outline-light me-2" sec:authorize="isAnonymous()">Sign-in</button>
                     </form>
                 </div>
+
             </div>
         </div>
     </header>

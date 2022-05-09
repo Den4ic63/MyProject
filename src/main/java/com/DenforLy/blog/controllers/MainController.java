@@ -43,10 +43,8 @@ public class MainController {
             }
         }else {
             posts = postRepo.findAll();
+            model.addAttribute("posts",posts);
         }
-
-        model.addAttribute("posts",posts);
-        model.addAttribute("filter",filter);
 
         return "homepage";
     }

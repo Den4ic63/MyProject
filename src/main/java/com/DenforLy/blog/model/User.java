@@ -25,7 +25,6 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
 
-
     public User() {
 
     }

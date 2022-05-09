@@ -34,16 +34,17 @@ public class Post  {
     public Set<User> getFollowing() {
         return following;
     }
-
     public void setFollowing(Set<User> following) {
         this.following = following;
     }
+
 
 
     public String getAuthorName(){
         return author !=null ? author.getUsername() : "none";
     }
     public Long getAuthorid(){return author !=null ? author.getId(): 0; }
+
 
     public User getAuthor() {
         return author;
