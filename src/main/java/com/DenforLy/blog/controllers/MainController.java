@@ -160,9 +160,16 @@ public class MainController {
                            Model model)
     {
         model.addAttribute("user",user);
-
-
         return "profile";
+    }
+
+    @GetMapping("chat{user}")
+    public String chat(@AuthenticationPrincipal User Currentuser,@PathVariable User user,
+                          Model model)
+    {
+
+
+        return "chat";
     }
 
 }
